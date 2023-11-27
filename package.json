@@ -1,0 +1,28 @@
+{
+  "name": "mkwebmanifest",
+  "version": "0.1.0",
+  "description": "Generate icons and web manifest for web applications",
+  "type": "module",
+  "bin": {
+    "mkwebmanifest": "./mkwebmanifest.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "engines": {
+    "node": ">=13"
+  },
+  "keywords": [
+    "webmanifest",
+    "web manifest",
+    "manifest",
+    "icon",
+    "icons",
+    "favicon",
+    "pwa",
+    "progressive web app",
+    "progressive web application"
+  ],
+  "author": "Florian Ebeling <mail@florianebeling.com>",
+  "license": "MIT"
+}
