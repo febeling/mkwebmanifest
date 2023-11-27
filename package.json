@@ -24,5 +24,8 @@
     "progressive web application"
   ],
   "author": "Florian Ebeling <mail@florianebeling.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "sharp": "^0.32.6"
+  }
 }
