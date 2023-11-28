@@ -5,8 +5,12 @@ import path from 'path';
 import { exit, argv } from 'process';
 import sharp from 'sharp';
 
+const configFiles = [
+  'config/mkwebmanifest.json',
+  'mkwebmanifest.config.json'
+];
+
 const watch = argv === '--watch';
-const configFile = 'config/webmanifest-config.json';
 const outdir = 'app/assets/builds';
 const sizes = [512, 192, 180, 168, 144, 96, 72, 48, 32, 16];
 const imageType = 'png';
@@ -23,16 +27,29 @@ const webmanifestDefaults = {
 
 let config;
 
-function loadJson() {
+function loadConfig() {
+  let configFile;
+  try {
+    configFile = configFiles.find(path => fs.existsSync(path));
+    if (!configFile) {
+      throw new Error("no config file")
+    }
+  } catch (error) {
+    console.error(`No configuration found at any of these locations:
+    
+- ${configFiles.join("\n- ")}`);
+    exit(1);
+  }
+
   try {
     config = JSON.parse(fs.readFileSync(configFile, 'utf8'));
   } catch (error) {
-    console.error(`Unable to read configuration '${configFile}'`, error.message);
+    console.error(`Unable to read configuration '${configFile}': `, error.message);
     exit(1);
   }
 }
 
-loadJson();
+loadConfig();
 
 function resizeImage(inputPath, outputPath, size) {
   return sharp(inputPath)
@@ -70,7 +87,7 @@ async function generate() {
       sizes: `${imageSize}x${imageSize}`,
       type: imageMIMEType
     });
-    console.log(`Icon ${`${imageSize}x${imageSize}`}: ${outputFilePath}`);
+    console.log(`Icon ${`${imageSize}x${imageSize}`} written to ${outputFilePath}`);
   }
 
   const { start_url, display, description, name, short_name } = config.webmanifest;
@@ -87,7 +104,7 @@ async function generate() {
 function watchFiles() {
   fs.watch(configFile, (event) => {
     console.log(`JSON file changed (${event}), reloading...`);
-    loadJson();
+    loadConfig();
     generate();
   });
 
