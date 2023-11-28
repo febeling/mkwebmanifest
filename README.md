@@ -8,47 +8,46 @@ In order to link icons and make a web application installable, it can provide a 
 
 ```
 npm install -D mkwebmanifest
+mkwebmanifest --icon app/assets/images/icon.svg
 ```
 
 ```
-npx mkwebmanifest
+npx mkwebmanifest --icon app/assets/images/icon.svg
+npx mkwebmanifest --icon app/assets/images/icon.svg --watch
 ```
-
-This command assumes a configuration file at a number of default locations.
-
-* `config/mkwebmanifest.json`
-* `mkwebmanifest.config.json`
-
-A minimal configuration file looks like this:
-
-```json
-{
-  "webmanifest": {
-    "name": "Clipper. Make current data available on the web while maintaining full control",
-    "short_name": "Clipper",
-    "description": "Clipper is a tool that makes your current data available while maintaining full control over it"
-  },
-  "icon": "app/assets/images/icon-oval.svg",
-  "outdir": "app/assets/builds"
-}
-```
-
-The web manifest requires at least the following properties on some operating systems:
-
-* name
-* icons
-* start_url
-* display
 
 `mkwebmanifest` makes guesses for these. `icons` is an array of objects describing the icon size variants with their respective file paths.
 
-You can start by just providing an icon path, and all other properties will be guessed or provided with reasonable defaults. The `name` will be looked for in `package.json`.
+Only the `icon` path is required, and all other properties will be guessed or provided with reasonable defaults. The `name` will be looked for in `package.json`, only if that doesn't exist it is required from the command line option of configuration.
 
-It is recommended, though, to provide both `name`, `short_name` if you want people to install the app on mobile devices.
+If the `--name` option isn't given, the command assumes a configuration file at the default locations.
 
-## All Properties
+- `config/mkwebmanifest.json`
+- `mkwebmanifest.config.json`
 
-``
+A simple configuration file looks like this:
 
+```json
+{
+  "icon": "app/assets/images/icon-oval.svg",
+  "outdir": "app/assets/builds",
+  "name": "Clipper. Make current data available on the web while maintaining full control",
+  "short_name": "Clipper",
+  "description": "Clipper is a tool that makes your current data available while maintaining full control over it"
+}
+```
+
+The location of the configuration file can be set by the option `--config`.
+
+## All Configuration
+
+`icon` (required)
+`name` (looked up from package.json, else required)
+`outdir` ("./public")
+`short_name` (none)
+`display` ("browser")
+`sizes` ([512, 192, 180, 168, 144, 96, 72, 48, 32, 16])
+`description` (none)
+`webmanifest` overrides properties in the generated web manifest file
 
 1 https://developer.mozilla.org/en-US/docs/Web/Manifest
