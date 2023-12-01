@@ -4,10 +4,10 @@
   "description": "Generate icons and web manifest for web applications",
   "type": "module",
   "bin": {
-    "mkwebmanifest": "./mkwebmanifest.js"
+    "mkwebmanifest": "./cli.js"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
   },
   "engines": {
     "node": ">=13"
@@ -26,6 +26,10 @@
   "author": "Florian Ebeling <mail@florianebeling.com>",
   "license": "MIT",
   "dependencies": {
+    "commander": "^11.1.0",
     "sharp": "^0.32.6"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
   }
 }

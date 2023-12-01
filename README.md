@@ -2,7 +2,7 @@
 
 Generate icons in different sizes and a web manifest for web applications.
 
-In order to link icons and make a web application installable, it can provide a web manifest [1]. This tool generates icons in various output sizes from a single source file. It's recommended to provide an SVG or large (512x512) source icon.
+In order to link icons and make a web application installable, it can provide a web manifest [1]. This tool generates icons in various output sizes from a single source file. It's recommended to provide an SVG or large PNG (e.g. 512x512) source icon.
 
 ## Usage
 
@@ -48,6 +48,6 @@ The location of the configuration file can be set by the option `--config`.
 `display` ("browser")
 `sizes` ([512, 192, 180, 168, 144, 96, 72, 48, 32, 16])
 `description` (none)
-`webmanifest` overrides properties in the generated web manifest file
+`webmanifest` overrides properties in the generated web manifest file (available only via configuration file, not per option)
 
 1 https://developer.mozilla.org/en-US/docs/Web/Manifest

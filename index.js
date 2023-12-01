@@ -1,55 +1,32 @@
-#!/usr/bin/env node
-
 import fs from 'fs';
 import path from 'path';
-import { exit, argv } from 'process';
+import { exit } from 'process';
 import sharp from 'sharp';
 
 const configFiles = [
   'config/mkwebmanifest.json',
-  'mkwebmanifest.config.json'
+  'mkwebmanifest.json',
+  'mkwebmanifest.config.json',
+  'config/mkwebmanifest.config.json'
 ];
 
-const watch = argv === '--watch';
-const outdir = 'app/assets/builds';
-const sizes = [512, 192, 180, 168, 144, 96, 72, 48, 32, 16];
-const imageType = 'png';
-const imageMIMEType = 'image/png';
-
-const webmanifestDefaults = {
-  start_url: "/",
-  display: "browser",
-  background_color: "#fff",
-  // name
-  // short_name
-  // description
-};
-
-let config;
-
-function loadConfig() {
-  let configFile;
+function findConfig() {
   try {
-    configFile = configFiles.find(path => fs.existsSync(path));
-    if (!configFile) {
-      throw new Error("no config file")
-    }
+    return configFiles.find(path => fs.existsSync(path));
   } catch (error) {
-    console.error(`No configuration found at any of these locations:
-    
-- ${configFiles.join("\n- ")}`);
-    exit(1);
-  }
-
-  try {
-    config = JSON.parse(fs.readFileSync(configFile, 'utf8'));
-  } catch (error) {
-    console.error(`Unable to read configuration '${configFile}': `, error.message);
+    console.log(`Unable to determine config file: `, error.message);
     exit(1);
   }
 }
 
-loadConfig();
+function loadConfig(path) {
+  try {
+    return JSON.parse(fs.readFileSync(path, 'utf8'));
+  } catch (error) {
+    console.error(`Unable to read configuration '${path}': `, error.message);
+    exit(1);
+  }
+}
 
 function resizeImage(inputPath, outputPath, size) {
   return sharp(inputPath)
@@ -61,7 +38,7 @@ function resizeImage(inputPath, outputPath, size) {
     .toFile(outputPath);
 }
 
-async function generate() {
+async function generate(config) {
   const inputIconPath = config.icon;
   const basename = path.parse(inputIconPath).name;
   const outputImages = [];
@@ -117,8 +94,9 @@ function watchFiles() {
   console.log('Watching for changes...');
 }
 
-generate();
-
-if (watch) {
-  watchFiles();
-}
+export {
+  loadConfig,
+  findConfig,
+  watchFiles,
+  generate,
+};
