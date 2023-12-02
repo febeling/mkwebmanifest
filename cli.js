@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 
-import { program } from 'commander';
 import fs from 'fs';
+import { synopt } from './synopt.js';
 import { loadConfig, findConfig } from './index.js';
 
-program
+synopt
   .summary("Generate icons and web manifest for web applications")
   .description('`icon` path is required. `name` can be guessed from package.json, else it\'s required, too. Pass required parameters as options or in the .json config file')
   .option("--icon <path>", "source icon (.svg, .png, etc.)")

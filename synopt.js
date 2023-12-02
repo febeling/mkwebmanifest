@@ -25,8 +25,9 @@ const parseDeclaration = (arr) => {
     } else if (reShort.test(elem)) {
       option.short = elem;
     } else if (reLong.test(elem)) {
-      const [_all, long, name, argname] = elem.match(reLong);
-      option.long = [long, argname].join('');
+      const [_all, long, name, _x, argname] = elem.match(reLong);
+      option.long = long;
+      option.argname = argname || name.toUpperCase();
       option.name = name;
     } else if (option.name && !option.description) {
       option.description = elem;
@@ -39,6 +40,8 @@ const parseDeclaration = (arr) => {
   }
   return option;
 };
+
+const isOption = (string) => /^-/.test(string);
 
 const createCommand = (name) => {
   const state = {
@@ -60,17 +63,44 @@ const createCommand = (name) => {
       state.optionDeclarations.push(declaration);
       return command;
     },
-    parseArgs: (args) => { return {}; },
+    parse: (args) => {
+      const options = {};
+
+      for (let i = 0; i < args.length; i++) {
+        const element = args[i];
+        const decl = state.optionDeclarations.find(decl => decl.long === element);
+        if (decl.boolean) {
+          options[decl.name] = true;
+        } else if (!isOption(args[i + 1])) {
+          options[decl.name] = args[i + 1];
+          i++;
+        } else {
+          // non-boolean and no value => error
+          throw new Error(`non-boolean option required value: ${element}`);
+        }
+      }
+
+      return options;
+    },
     declarations: () => state.optionDeclarations,
     usage: () => {
       const shorts = state.optionDeclarations.map((val, i) => val.short);
       const longs = state.optionDeclarations.map((val, i) => val.long);
+      const argnames = state.optionDeclarations.map((val, i) => val.argname);
       const descriptions = state.optionDeclarations.map((val, i) => val.description);
-      const longMax = Math.max(...longs.map(l => l.length));
+      
+      const longMax = Math.max(...longs.map((l, i) => {
+        let len = l.length;
+        if (!state.optionDeclarations[i].boolean) {
+          len += argnames[i].length + 1;
+        }
+        return len;
+      }));
+
       const anyShorts = shorts.filter(x => x).length > 0;
 
       const optionHelpLines = longs.map((long, i) => {
-        return `    ${anyShorts ? (shorts[i] + ',' || '  ') : ''}  ${(long || '').padEnd(longMax, ' ')}  ${descriptions[i]}`;
+        return `    ${anyShorts ? (shorts[i] ? shorts[i] + ',' : '   ') : ''}  ${(long + (state.optionDeclarations[i].boolean ? '' : ` ${argnames[i]}`)).padEnd(longMax, ' ')}  ${descriptions[i]}`;
       });
 
       return [
