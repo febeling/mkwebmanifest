@@ -15,7 +15,7 @@ const parseDeclaration = (arr) => {
 
   const option = {};
 
-  const reLong = /^(--(\w+?))( (\w+?)?)?$/;
+  const reLong = /^(--([-\w]+?))( (\w+?)?)?$/;
   const reShort = /^-[^-]$/;
 
   while (decl.length > 0) {

@@ -25,6 +25,24 @@ describe('option declaration parsing', () => {
     }]);
   });
 
+  test('name with dash', () => {
+    synopt.option("--short-name");
+    expect(synopt.declarations()).toEqual([{
+      name: "short-name",
+      long: "--short-name",
+      argname: "SHORT-NAME" // SNAKE_CASE ?
+    }]);
+  });
+
+  test('name with underscore', () => {
+    synopt.option("--short_name");
+    expect(synopt.declarations()).toEqual([{
+      name: "short_name",
+      long: "--short_name",
+      argname: "SHORT_NAME"
+    }]);
+  });
+
   test('name is required', () => {
     expect(() => {
       synopt.option();
