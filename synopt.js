@@ -73,11 +73,6 @@ const createCommand = (name) => {
         const nextElement = args[i + 1];
         const decl = state.optionDeclarations.find(decl => decl.long === element);
 
-        if (!decl) {
-          console.log(args, decl, element, state.optionDeclarations);
-          throw new Error('decl missing');
-        };
-
         if (decl?.boolean) {
           options[decl.name] = true;
         } else if (nextElement && !isOption(nextElement)) {
