@@ -43,7 +43,7 @@ const evaluateConfig = (synopt, argv) => {
 
   // sizes <string>      "comma-separated list of icon sizes to generate"
 
-  const arr = config.sizes.split(',');
+  const arr = config.sizes.split(',').map(s => parseInt(s, 10));
   config.sizesArray = arr;
 
   // short-name <string> "short variant of the app name"

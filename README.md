@@ -6,14 +6,32 @@ In order to link icons and make a web application installable, it can provide a 
 
 ## Usage
 
-```
+Run when installed
+
+```shell
 npm install -D mkwebmanifest
-mkwebmanifest --icon app/assets/images/icon.svg
+mkwebmanifest --icon app/assets/images/icon.svg --name myapp
 ```
 
+or using `npx`
+
+```shell
+npx mkwebmanifest --icon app/assets/images/icon.svg --name myapp
+npx mkwebmanifest --icon app/assets/images/icon.svg --name myapp --watch
 ```
-npx mkwebmanifest --icon app/assets/images/icon.svg
-npx mkwebmanifest --icon app/assets/images/icon.svg --watch
+
+or using all settings from a default configuration file
+
+```shell
+npx mkwebmanifest 
+```
+
+With `config/mkwebmanifest.config.json`
+```json
+{
+  "name": "myapp",
+  "icon": "app/assets/images/icon.svg"
+}
 ```
 
 `mkwebmanifest` makes guesses for these. `icons` is an array of objects describing the icon size variants with their respective file paths.

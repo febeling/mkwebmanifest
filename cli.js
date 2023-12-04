@@ -5,25 +5,16 @@ import { generate } from './mkmanifest.js';
 import { synoptions } from './options.js';
 import synopt from './synopt.js';
 
-const imageType = 'png';
-const imageMIMEType = 'image/png';
-
-const webmanifestDefaults = {
-  start_url: "/",
-  display: "browser",
-  background_color: "#fff",
-};
-
-let config
+let config;
 try {
-  config = evaluateConfig(synopt, process.argv);
+  config = evaluateConfig(synopt, process.argv.slice(2));
 } catch (err) {
   console.error(err.message);
   console.info(synoptions.usage());
-  exit(1);
+  process.exit(0);
 }
 
-generate();
+generate(config);
 
 if (config.watch) {
   watchFiles();

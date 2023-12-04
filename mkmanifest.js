@@ -10,11 +10,20 @@ const configFiles = [
   'config/mkwebmanifest.config.json'
 ];
 
+const imageType = 'png';
+const imageMIMEType = 'image/png';
+
+const webmanifestDefaults = {
+  start_url: "/",
+  display: "browser",
+  background_color: "#fff",
+};
+
 function findConfig() {
   try {
     return configFiles.find(path => fs.existsSync(path));
   } catch (error) {
-    console.log(`Unable to determine config file: `, error.message);
+    console.error(`Unable to determine config file: `, error.message);
     exit(1);
   }
 }
@@ -48,34 +57,40 @@ async function generate(config) {
     exit(1);
   }
 
-  if (!fs.existsSync(outdir)) {
-    fs.mkdirSync(outdir);
+  if (!fs.existsSync(config.outdir)) {
+    fs.mkdirSync(config.outdir);
   }
 
-  if (!fs.existsSync(`${outdir}/icons`)) {
-    fs.mkdirSync(`${outdir}/icons`);
+  if (!fs.existsSync(`${config.outdir}/icons`)) {
+    fs.mkdirSync(`${config.outdir}/icons`);
   }
 
-  for (const imageSize of sizes) {
-    const outputFilePath = `${outdir}/icons/${basename}_${imageSize}x${imageSize}.${imageType}`;
+  for (const imageSize of config.sizesArray) {
+    const outputFilePath = `${config.outdir}/icons/${basename}_${imageSize}x${imageSize}.${imageType}`;
     await resizeImage(inputIconPath, outputFilePath, imageSize);
     outputImages.push({
       src: outputFilePath,
       sizes: `${imageSize}x${imageSize}`,
       type: imageMIMEType
     });
-    console.log(`Icon ${`${imageSize}x${imageSize}`} written to ${outputFilePath}`);
+    
+    if (config.verbose) {
+      console.log(`Icon ${`${imageSize}x${imageSize}`} written to ${outputFilePath}`);
+    }
   }
 
-  const { start_url, display, description, name, short_name } = config.webmanifest;
+  const { start_url, display, description, name, short_name } = config?.webmanifest || {};
   const webmanifest = {
     ...structuredClone(webmanifestDefaults),
     ...{ start_url, display, description, name, short_name }
   };
   webmanifest.icons = outputImages;
-  const outputJsonFile = `${outdir}/app.webmanifest`;
+  const outputJsonFile = `${config.outdir}/app.webmanifest`;
   fs.writeFileSync(outputJsonFile, JSON.stringify(webmanifest, null, 2), 'utf8');
-  console.log(`Written app.webmanifest: ${outputJsonFile}`);
+  
+  if (config.verbose) {
+    console.log(`Written app.webmanifest: ${outputJsonFile}`);
+  }
 }
 
 function watchFiles() {
