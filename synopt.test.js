@@ -114,6 +114,12 @@ describe('parse argument vector', () => {
     expect(options).toEqual({ name: "Test-1" });
   });
 
+  test('non-boolean option', () => {
+    synopt.option("--name");
+    const options = synopt.parse([]);
+    expect(options).toEqual({});
+  });
+
   test('last wins if used twice', () => {
     synopt.option("--name");
     const options = synopt.parse(["--name", "Test-1", "--name", "Test-2"]);
