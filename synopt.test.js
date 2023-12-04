@@ -6,65 +6,67 @@ beforeEach(() => {
   synopt = createCommand('mkstuf');
 });
 
-test('name', () => {
-  synopt.option("--name NAME");
-  expect(synopt.declarations()).toEqual([{
-    name: "name",
-    long: "--name",
-    argname: "NAME"
-  }]);
-});
+describe('option declaration parsing', () => {
+  test('name', () => {
+    synopt.option("--name NAME");
+    expect(synopt.declarations()).toEqual([{
+      name: "name",
+      long: "--name",
+      argname: "NAME"
+    }]);
+  });
 
-test('name without argname', () => {
-  synopt.option("--name");
-  expect(synopt.declarations()).toEqual([{
-    name: "name",
-    long: "--name",
-    argname: "NAME"
-  }]);
-});
+  test('name default to same in uppercase', () => {
+    synopt.option("--code");
+    expect(synopt.declarations()).toEqual([{
+      name: "code",
+      long: "--code",
+      argname: "CODE"
+    }]);
+  });
 
-test('name is required', () => {
-  expect(() => {
-    synopt.option();
-  }).toThrow();
-});
+  test('name is required', () => {
+    expect(() => {
+      synopt.option();
+    }).toThrow();
+  });
 
-test('option flag, short name', () => {
-  synopt.option("-n", "--num NUM");
-  expect(synopt.declarations()).toEqual([{
-    name: "num",
-    long: "--num",
-    argname: "NUM",
-    short: "-n"
-  }]);
-});
+  test('option flag, short name', () => {
+    synopt.option("-n", "--num NUM");
+    expect(synopt.declarations()).toEqual([{
+      name: "num",
+      long: "--num",
+      argname: "NUM",
+      short: "-n"
+    }]);
+  });
 
-test('only short throws', () => {
-  expect(() => {
-    synopt.option("-n");
-  }).toThrow();
-});
+  test('only short throws', () => {
+    expect(() => {
+      synopt.option("-n");
+    }).toThrow();
+  });
 
-test('description', () => {
-  synopt.option("--num NUM", "The number of it");
-  expect(synopt.declarations()).toEqual([{
-    name: "num",
-    long: "--num",
-    argname: "NUM",
-    description: "The number of it"
-  }]);
-});
+  test('description', () => {
+    synopt.option("--num NUM", "The number of it");
+    expect(synopt.declarations()).toEqual([{
+      name: "num",
+      long: "--num",
+      argname: "NUM",
+      description: "The number of it"
+    }]);
+  });
 
-test('boolean', () => {
-  synopt.option("--count", "The count", { boolean: true });
-  expect(synopt.declarations()).toEqual([{
-    name: "count",
-    argname: "COUNT",
-    long: "--count",
-    description: "The count",
-    boolean: true,
-  }]);
+  test('boolean', () => {
+    synopt.option("--count", "The count", { boolean: true });
+    expect(synopt.declarations()).toEqual([{
+      name: "count",
+      argname: "COUNT",
+      long: "--count",
+      description: "The count",
+      boolean: true,
+    }]);
+  });
 });
 
 test('usage banner', () => {
@@ -87,50 +89,50 @@ Description, which is longer.
   );
 });
 
-// required (?)
+describe('parse argument vector', () => {
+  test('parse', () => {
+    synopt.option("--name");
+    const options = synopt.parse(["--name", "Test-1"]);
+    expect(options).toEqual({ name: "Test-1" });
+  });
 
-beforeEach(() => {
-  synopt = createCommand('mkstuf');
-});
+  test('last wins if used twice', () => {
+    synopt.option("--name");
+    const options = synopt.parse(["--name", "Test-1", "--name", "Test-2"]);
+    expect(options).toEqual({ name: "Test-2" });
+  });
 
-test('parse', () => {
-  synopt.option("--name");
-  const options = synopt.parse(["--name", "Test-1"]);
-  expect(options).toEqual({ name: "Test-1" });
-});
+  test('raise if value is missing', () => {
+    synopt
+      .option("--name")
+      .option("--config");
+    expect(() => {
+      synopt.parse(["--name"]);
+    }).toThrow('non-boolean option requires value: --name');
+  });
 
-test('last wins if used twice', () => {
-  synopt.option("--name");
-  const options = synopt.parse(["--name", "Test-1", "--name", "Test-2"]);
-  expect(options).toEqual({ name: "Test-2" });
-});
+  test('don\'t raise if value is missing but boolean', () => {
+    synopt.option("--flat", { boolean: true });
+    expect(() => {
+      const opts = synopt.parse(["--flat"]);
+    }).not.toThrow();
+  });
 
-test('raise if value is missing', () => {
-  synopt.option("--name", "--config");
-  expect(() => {
-    synopt.parse(["--name"]);
-  }).toThrow('non-boolean option requires value: --name');
-});
+  test('missing value (end of input)', () => {
+    synopt.option("--name");
+    expect(() => {
+      const opts = synopt.parse(["--name"]);
+    }).toThrow('non-boolean option requires value: --name');
+  });
 
-test('don\'t raise if value is missing but boolean', () => {
-  synopt.option("--flat", { boolean: true });
-  expect(() => {
-    const opts = synopt.parse(["--flat"]);
-  }).not.toThrow();
-});
+  test('missing value (next is option short or long)', () => {
+    synopt
+      .option("--name")
+      .option("--flat", { boolean: true });
+    expect(() => {
+      synopt.parse(["--name", "--flat"]);
+    }).toThrow('non-boolean option requires value: --name');
+  });
 
-test('missing value (end of input)', () => {
-  synopt.option("--name");
-  expect(() => {
-    const opts = synopt.parse(["--name"]);
-  }).toThrow('non-boolean option requires value: --name');
-});
-
-test('missing value (next is option short or long)', () => {
-  synopt
-    .option("--name")
-    .option("--flat", { boolean: true });
-  expect(() => {
-    synopt.parse(["--name", "--flat"]);
-  }).toThrow('non-boolean option requires value: --name');
+  // options object correct
 });

@@ -1,8 +1,10 @@
 /** 
- * Parse an option declaration.
- * 
+ * Parse an option declaration into a parser
+ *
+ * The object representing the option interface also parses an argument vector into an concrete options object.
+ *
  * @param {string} [short] - The short form of the option, with this format '-f'
- * @param {string} name - The long option name, this format '--name'
+ * @param {string} name - The long option name, this format '--name' (two dashes, name of any length)
  * @param {string} [description] - Descriptive text of the option
  * @param {object} [options] - Options for this declaration. Example `{ boolean: true, required: true }`
  * @return {object} The option declaration representation object
@@ -68,15 +70,20 @@ const createCommand = (name) => {
 
       for (let i = 0; i < args.length; i++) {
         const element = args[i];
+        const nextElement = args[i + 1];
         const decl = state.optionDeclarations.find(decl => decl.long === element);
+
+        if (!decl) {
+          console.log(args, decl, element, state.optionDeclarations);
+          throw new Error('decl missing');
+        };
 
         if (decl?.boolean) {
           options[decl.name] = true;
-        } else if (args[i + 1] && !isOption(args[i + 1])) {
-          options[decl.name] = args[i + 1];
+        } else if (nextElement && !isOption(nextElement)) {
+          options[decl.name] = nextElement;
           i++;
         } else {
-          // non-boolean and no value => error
           throw new Error(`non-boolean option requires value: ${element}`);
         }
       }
