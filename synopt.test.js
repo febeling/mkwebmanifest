@@ -105,10 +105,32 @@ test('last wins if used twice', () => {
   expect(options).toEqual({ name: "Test-2" });
 });
 
-// raise if value is missing
+test('raise if value is missing', () => {
+  synopt.option("--name", "--config");
+  expect(() => {
+    synopt.parse(["--name"]);
+  }).toThrow('non-boolean option requires value: --name');
+});
 
-// don't raise if value is missing but boolean
+test('don\'t raise if value is missing but boolean', () => {
+  synopt.option("--flat", { boolean: true });
+  expect(() => {
+    const opts = synopt.parse(["--flat"]);
+  }).not.toThrow();
+});
 
-// missing value (end of input)
+test('missing value (end of input)', () => {
+  synopt.option("--name");
+  expect(() => {
+    const opts = synopt.parse(["--name"]);
+  }).toThrow('non-boolean option requires value: --name');
+});
 
-// missing value (next is option short or long)
+test('missing value (next is option short or long)', () => {
+  synopt
+    .option("--name")
+    .option("--flat", { boolean: true });
+  expect(() => {
+    synopt.parse(["--name", "--flat"]);
+  }).toThrow('non-boolean option requires value: --name');
+});

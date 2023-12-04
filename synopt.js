@@ -69,14 +69,15 @@ const createCommand = (name) => {
       for (let i = 0; i < args.length; i++) {
         const element = args[i];
         const decl = state.optionDeclarations.find(decl => decl.long === element);
-        if (decl.boolean) {
+
+        if (decl?.boolean) {
           options[decl.name] = true;
-        } else if (!isOption(args[i + 1])) {
+        } else if (args[i + 1] && !isOption(args[i + 1])) {
           options[decl.name] = args[i + 1];
           i++;
         } else {
           // non-boolean and no value => error
-          throw new Error(`non-boolean option required value: ${element}`);
+          throw new Error(`non-boolean option requires value: ${element}`);
         }
       }
 
@@ -88,7 +89,7 @@ const createCommand = (name) => {
       const longs = state.optionDeclarations.map((val, i) => val.long);
       const argnames = state.optionDeclarations.map((val, i) => val.argname);
       const descriptions = state.optionDeclarations.map((val, i) => val.description);
-      
+
       const longMax = Math.max(...longs.map((l, i) => {
         let len = l.length;
         if (!state.optionDeclarations[i].boolean) {
