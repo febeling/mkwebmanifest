@@ -39,18 +39,8 @@ const evaluateConfig = (synopt, argv) => {
     throw new Error('Name missing')
   }
 
-  // outdir
-
-  // sizes <string>      "comma-separated list of icon sizes to generate"
-
   const arr = config.sizes.split(',').map(s => parseInt(s, 10));
   config.sizesArray = arr;
-
-  // short-name <string> "short variant of the app name"
-  // display <string>    "configure browser UI or standalone", "browser"
-  // description         "app description"
-  // tags                "print meta tags to include manifest file and icons"
-  // watch               "watch icon and configuration for changes"
 
   return config;
 };
