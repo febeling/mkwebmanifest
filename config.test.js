@@ -1,5 +1,4 @@
 import { evaluateConfig } from './config.js';
-
 import { synoptions } from './options.js'
 
 test('`icon` is required', () => {

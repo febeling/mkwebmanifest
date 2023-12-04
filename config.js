@@ -3,7 +3,6 @@ import { loadConfig, findConfig } from './mkmanifest.js';
 const defaults = {
   outdir: "public/",
   sizes: '512,192,180,168,144,96,72,48,32,16',
-  outdir: 'public/',
 };
 
 const loadFileConfig = ({ config }) => {
