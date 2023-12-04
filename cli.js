@@ -14,7 +14,7 @@ try {
   process.exit(0);
 }
 
-generate(config);
+await generate(config);
 
 if (config.watch) {
   watchFiles();
