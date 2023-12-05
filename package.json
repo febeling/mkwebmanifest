@@ -10,7 +10,7 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=16"
   },
   "keywords": [
     "webmanifest",
