@@ -2,12 +2,6 @@
  * Parse an option declaration into a parser
  *
  * The object representing the option interface also parses an argument vector into an concrete options object.
- *
- * @param {string} [short] - The short form of the option, with this format '-f'
- * @param {string} name - The long option name, this format '--name' (two dashes, name of any length)
- * @param {string} [description] - Descriptive text of the option
- * @param {object} [options] - Options for this declaration. Example `{ boolean: true, required: true }`
- * @return {object} The option declaration representation object
  */
 
 const parseDeclaration = (arr) => {
@@ -60,6 +54,15 @@ const createCommand = (name) => {
       state.description = text;
       return command;
     },
+    /**
+     * An option declaration.
+     *
+     * @param {string} [short] - The short form of the option, with this format '-f'
+     * @param {string} name - The long option name, this format '--name' (two dashes, name of any length)
+     * @param {string} [description] - Descriptive text of the option
+     * @param {object} [options] - Options for this declaration. Example `{ boolean: true, required: true }`
+     * @return {object} The option declaration representation object
+     */
     option: (...args) => {
       const declaration = parseDeclaration(args);
       state.optionDeclarations.push(declaration);
@@ -71,12 +74,18 @@ const createCommand = (name) => {
       for (let i = 0; i < args.length; i++) {
         const element = args[i];
         const nextElement = args[i + 1];
-        const decl = state.optionDeclarations.find(decl => decl.long === element);
+        const elementDecl = state.optionDeclarations.find(decl => {
+          return decl.long === element || decl.short === element;
+        });
 
-        if (decl?.boolean) {
-          options[decl.name] = true;
+        if (!elementDecl) {
+          throw new Error(`unknown option (${element})`);
+        }
+
+        if (elementDecl?.boolean) {
+          options[elementDecl.name] = true;
         } else if (nextElement && !isOption(nextElement)) {
-          options[decl.name] = nextElement;
+          options[elementDecl.name] = nextElement;
           i++;
         } else {
           throw new Error(`non-boolean option requires value: ${element}`);

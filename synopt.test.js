@@ -114,6 +114,19 @@ describe('parse argument vector', () => {
     expect(options).toEqual({ name: "Test-1" });
   });
 
+  test('parse short option', () => {
+    synopt.option("-n", "--name");
+    const options = synopt.parse(["-n", "Test-1"]);
+    expect(options).toEqual({ name: "Test-1" });
+  });
+
+  test('unknown options errors', () => {
+    synopt.option("-n", "--name");
+    expect(() => {
+      synopt.parse(["-x"]);
+    }).toThrow('unknown option');
+  });
+
   test('non-boolean option', () => {
     synopt.option("--name");
     const options = synopt.parse([]);
