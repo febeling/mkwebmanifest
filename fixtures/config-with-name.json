@@ -1,4 +1,4 @@
 {
   "name": "test-app",
-  "icon": "./check-badge.svg"
+  "icon": "./fixtures/check-badge.svg"
 }

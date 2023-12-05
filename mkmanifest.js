@@ -2,40 +2,10 @@ import fs from 'fs';
 import path from 'path';
 import { exit } from 'process';
 import sharp from 'sharp';
-
-const configFiles = [
-  'config/mkwebmanifest.json',
-  'mkwebmanifest.json',
-  'mkwebmanifest.config.json',
-  'config/mkwebmanifest.config.json'
-];
+import { loadConfig, webmanifestDefaults } from './config.js';
 
 const imageType = 'png';
 const imageMIMEType = 'image/png';
-
-const webmanifestDefaults = {
-  start_url: "/",
-  display: "browser",
-  background_color: "#fff",
-};
-
-function findConfig() {
-  try {
-    return configFiles.find(path => fs.existsSync(path));
-  } catch (error) {
-    console.error(`Unable to determine config file: `, error.message);
-    exit(1);
-  }
-}
-
-function loadConfig(path) {
-  try {
-    return JSON.parse(fs.readFileSync(path, 'utf8'));
-  } catch (error) {
-    console.error(`Unable to read configuration '${path}': `, error.message);
-    exit(1);
-  }
-}
 
 function resizeImage(inputPath, outputPath, size) {
   return sharp(inputPath)
@@ -105,25 +75,16 @@ async function generate(config) {
   }
 }
 
-function watchFiles() {
-  fs.watch(configFile, (event) => {
-    console.log(`Config file changed (${event}), regenerating...`);
-    loadConfig();
-    generate();
-  });
-
-  const { icon: inputIconPath } = config;
-  fs.watch(inputIconPath, (event) => {
-    console.log(`Image file changed (${event}), regenerating...`);
-    generate();
+function watchFiles(files, callback) {
+  files.forEach(file => {
+    console.log(`File changed (${file}), regenerating...`);
+    fs.watch(file, callback);
   });
 
   console.log('Watching for changes...');
 }
 
 export {
-  loadConfig,
-  findConfig,
   watchFiles,
   generate,
 };
