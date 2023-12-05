@@ -30,7 +30,7 @@ describe('option declaration parsing', () => {
     expect(synopt.declarations()).toEqual([{
       name: "short-name",
       long: "--short-name",
-      argname: "SHORT-NAME" // SNAKE_CASE ?
+      argname: "SHORT-NAME"
     }]);
   });
 
@@ -170,6 +170,4 @@ describe('parse argument vector', () => {
       synopt.parse(["--name", "--flat"]);
     }).toThrow('non-boolean option requires value: --name');
   });
-
-  // options object correct
 });
