@@ -69,3 +69,7 @@ The location of the configuration file can be set by the option `--config`.
 `webmanifest` overrides properties in the generated web manifest file (available only via configuration file, not per option)
 
 1 https://developer.mozilla.org/en-US/docs/Web/Manifest
+
+## Credit
+
+Besides the dependencies declared in package.json, test fixtures contain the CheckBadge icon from https://heroicons.dev, used under an [MIT](https://github.com/tailwindlabs/heroicons/blob/master/LICENSE) license, and a version converted to PNG sized 96x96 px by [svgexporter](https://www.npmjs.com/package/svgexport).
