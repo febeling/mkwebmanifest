@@ -86,7 +86,7 @@ const createCommand = (name) => {
           options[elementDecl.name] = nextElement;
           i++;
         } else {
-          throw new Error(`non-boolean option requires value: ${element}`);
+          throw new Error(`option '${element}' requires value, because it's not boolean`);
         }
       }
 
