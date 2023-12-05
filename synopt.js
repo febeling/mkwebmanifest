@@ -1,5 +1,5 @@
 /** 
- * Parse an option declaration into a parser
+ * Parse an option declaration list into an argument list parser
  *
  * The object representing the option interface also parses an argument vector into an concrete options object.
  */
