@@ -53,7 +53,7 @@ async function generate(config) {
   const outputImages = [];
 
   if (!fs.existsSync(inputIconPath)) {
-    console.error(`Unable to read icon '${inputIconPath}'`);
+    console.error(`Icon not found: '${inputIconPath}'`);
     exit(1);
   }
 
@@ -107,7 +107,7 @@ async function generate(config) {
 
 function watchFiles() {
   fs.watch(configFile, (event) => {
-    console.log(`JSON file changed (${event}), reloading...`);
+    console.log(`Config file changed (${event}), regenerating...`);
     loadConfig();
     generate();
   });
