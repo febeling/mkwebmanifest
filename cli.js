@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 import { evaluateConfig } from './config.js';
-import { generate, watchFiles } from './mkmanifest.js';
+import { generate, watchFiles } from './mkwebmanifest.js';
 import { synoptions } from './options.js';
 import synopt from './synopt.js';
 
