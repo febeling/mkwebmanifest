@@ -1,6 +1,13 @@
 import fs from "fs";
 import { exit } from "process";
 
+const configFiles = [
+  'config/mkwebmanifest.json',
+  'mkwebmanifest.json',
+  'mkwebmanifest.config.json',
+  'config/mkwebmanifest.config.json'
+];
+
 const defaults = {
   outdir: "public/",
   sizes: '512,192,180,168,144,96,72,48,32,16',
@@ -45,12 +52,6 @@ const evaluateConfig = (synopt, argv) => {
   return config;
 };
 
-export { evaluateConfig }; export const configFiles = [
-  'config/mkwebmanifest.json',
-  'mkwebmanifest.json',
-  'mkwebmanifest.config.json',
-  'config/mkwebmanifest.config.json'
-];
 function findConfig() {
   try {
     return configFiles.find(path => fs.existsSync(path));
@@ -59,7 +60,8 @@ function findConfig() {
     exit(1);
   }
 }
-export function loadConfig(path) {
+
+function loadConfig(path) {
   try {
     const config = JSON.parse(fs.readFileSync(path, 'utf8'));
     config.configFile = path;
@@ -69,9 +71,16 @@ export function loadConfig(path) {
     exit(1);
   }
 }
-export const webmanifestDefaults = {
+
+const webmanifestDefaults = {
   start_url: "/",
   display: "browser",
   background_color: "#fff",
 };
 
+export {
+  webmanifestDefaults,
+  configFiles,
+  evaluateConfig,
+  loadConfig,
+}; 
