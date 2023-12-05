@@ -1,1 +1,4 @@
-{ "name": "test-app" }
+{
+  "name": "test-app",
+  "icon": "./check-badge.svg"
+}

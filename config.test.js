@@ -24,7 +24,7 @@ test('config without name', () => {
   }).toThrow('Name missing');
 });
 
-test('config with name', () => {
+test('config with name and icon', () => {
   let config;
   expect(() => {
     config = evaluateConfig(synoptions, [
@@ -35,6 +35,19 @@ test('config with name', () => {
     ]);
   }).not.toThrow();
   expect(config.name).toBe('test-app');
+});
+
+test('option has precedence over config', () => {
+  let config;
+  expect(() => {
+    config = evaluateConfig(synoptions, [
+      "--name",
+      "myapp",
+      "--config",
+      "./fixtures/config-with-name.json"
+    ]);
+  }).not.toThrow();
+  expect(config.name).toBe('myapp');
 });
 
 test('outdir defaults to public/', () => {
