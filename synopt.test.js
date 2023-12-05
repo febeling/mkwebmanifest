@@ -145,7 +145,7 @@ describe('parse argument vector', () => {
       .option("--config");
     expect(() => {
       synopt.parse(["--name"]);
-    }).toThrow('non-boolean option requires value: --name');
+    }).toThrow(`option '--name' requires value, because it's not boolean`);
   });
 
   test('don\'t raise if value is missing but boolean', () => {
@@ -159,7 +159,7 @@ describe('parse argument vector', () => {
     synopt.option("--name");
     expect(() => {
       const opts = synopt.parse(["--name"]);
-    }).toThrow('non-boolean option requires value: --name');
+    }).toThrow(`option '--name' requires value, because it's not boolean`);
   });
 
   test('missing value (next is option short or long)', () => {
@@ -168,6 +168,6 @@ describe('parse argument vector', () => {
       .option("--flat", { boolean: true });
     expect(() => {
       synopt.parse(["--name", "--flat"]);
-    }).toThrow('non-boolean option requires value: --name');
+    }).toThrow(`option '--name' requires value, because it's not boolean`);
   });
 });
