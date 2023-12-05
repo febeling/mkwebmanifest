@@ -3,8 +3,8 @@ import synopt from './synopt.js';
 synopt
   .summary("Generate icons and web manifest for web applications")
   .description('ICON path and NAME are required. Pass required parameters as options or by config file')
-  .option("--icon", "source icon file")
-  .option("--name", "name of the web application")
+  .option("-i", "--icon", "source icon file")
+  .option("-n", "--name", "name of the web application")
   .option("--config", "configuration file")
   .option("--outdir", "directory path for generated files")
   .option("--sizes", "comma-separated list of icon sizes to generate (no spaces)")
