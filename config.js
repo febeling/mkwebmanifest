@@ -8,6 +8,12 @@ const configFiles = [
   'config/mkwebmanifest.config.json'
 ];
 
+const webmanifestDefaults = {
+  start_url: "/",
+  display: "browser",
+  background_color: "#fff",
+};
+
 const defaults = {
   outdir: "public/",
   sizes: '512,192,180,168,144,96,72,48,32,16',
@@ -71,12 +77,6 @@ function loadConfig(path) {
     exit(1);
   }
 }
-
-const webmanifestDefaults = {
-  start_url: "/",
-  display: "browser",
-  background_color: "#fff",
-};
 
 export {
   webmanifestDefaults,
