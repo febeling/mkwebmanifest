@@ -36,11 +36,10 @@ const evaluateConfig = (synopt, argv) => {
   // name 
 
   if (!config.name) {
-    throw new Error('Name missing')
+    throw new Error('Name missing');
   }
 
-  const arr = config.sizes.split(',').map(s => parseInt(s, 10));
-  config.sizesArray = arr;
+  config.sizesArray = config.sizes.split(',').map(s => parseInt(s, 10));
 
   return config;
 };
