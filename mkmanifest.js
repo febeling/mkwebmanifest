@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { exit } from 'process';
 import sharp from 'sharp';
-import { loadConfig, webmanifestDefaults } from './config.js';
+import { webmanifestDefaults } from './config.js';
 
 const imageType = 'png';
 const imageMIMEType = 'image/png';
@@ -61,12 +61,18 @@ async function generate(config) {
     }
   }
 
-  const { start_url, display, description, name, short_name } = config?.webmanifest || {};
+  // Assemble the properties
+
   const webmanifest = {
     ...structuredClone(webmanifestDefaults),
-    ...{ start_url, display, description, name, short_name }
+    ...config?.webmanifest || {}
   };
+
+  config.name && (webmanifest.name = config.name);
   webmanifest.icons = outputImages;
+
+  // Write to file
+
   const outputJsonFile = path.join(config.outdir, 'app.webmanifest');
   fs.writeFileSync(outputJsonFile, JSON.stringify(webmanifest, null, 2), 'utf8');
 
