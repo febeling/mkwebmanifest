@@ -80,9 +80,7 @@ const createCommand = (name) => {
 
         if (!elementDecl) {
           throw new Error(`unknown option (${element})`);
-        }
-
-        if (elementDecl?.boolean) {
+        } else if (elementDecl.boolean) {
           options[elementDecl.name] = true;
         } else if (nextElement && !isOption(nextElement)) {
           options[elementDecl.name] = nextElement;
