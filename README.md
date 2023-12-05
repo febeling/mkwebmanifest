@@ -1,72 +1,70 @@
 # mkwebmanifest
 
-Generate icons in different sizes and a web manifest for web applications.
+Generate icons in different sizes and a web manifest, in order to link icons (and make a web application installable).
 
-In order to link icons and make a web application installable, it can provide a web manifest [1]. This tool generates icons in various output sizes from a single source file. It's recommended to provide an SVG or large PNG (e.g. 512x512) source icon.
+The web manifest will contain all properties that are required on some platforms (`name`, `icons`, `start_url`, `display`).
 
 ## Usage
 
-Run when installed
-
-```shell
-npm install -D mkwebmanifest
-mkwebmanifest --icon app/assets/images/icon.svg --name myapp
-```
-
-or using `npx`
-
 ```shell
 npx mkwebmanifest --icon app/assets/images/icon.svg --name myapp
-npx mkwebmanifest --icon app/assets/images/icon.svg --name myapp --watch
 ```
-
-or using all settings from a default configuration file
-
+or using all settings from a default configuration file location
 ```shell
-npx mkwebmanifest 
-```
-
-With `config/mkwebmanifest.config.json`
-```json
+cat > mkwebmanifest.config.json << EOF
 {
   "name": "myapp",
   "icon": "app/assets/images/icon.svg"
 }
+EOF
+
+npx mkwebmanifest
 ```
 
-`mkwebmanifest` makes guesses for these. `icons` is an array of objects describing the icon size variants with their respective file paths.
+Or if installed
+```shell
+mkwebmanifest --icon app/assets/images/icon.svg --name myapp
+```
 
-Only the `icon` path is required, and all other properties will be guessed or provided with reasonable defaults. The `name` will be looked for in `package.json`, only if that doesn't exist it is required from the command line option of configuration.
+It's recommended to provide an SVG or large PNG (e.g. 512x512) source icon.
 
-If the `--name` option isn't given, the command assumes a configuration file at the default locations.
+## Options and Configuration
+
+Only the `icon` and `name` settings are required, either as option or configuration. `icon` is path of the input icon file, `name` is the name of the application.
+
+If the `--name` option isn't given, the command assumes a configuration file at one of the default locations.
 
 - `config/mkwebmanifest.json`
+- `mkwebmanifest.json`
 - `mkwebmanifest.config.json`
+- `config/mkwebmanifest.config.json`
 
-A simple configuration file looks like this:
+A configuration file might look like this:
 
 ```json
 {
   "icon": "app/assets/images/icon-oval.svg",
   "outdir": "app/assets/builds",
-  "name": "Clipper. Make current data available on the web while maintaining full control",
-  "short_name": "Clipper",
-  "description": "Clipper is a tool that makes your current data available while maintaining full control over it"
+  "name": "MyApp. Make my data available on the web while maintaining full control",
+  "short_name": "MyApp",
+  "description": "MyApp is a tool that makes your current data available while maintaining full control over it"
 }
 ```
 
-The location of the configuration file can be set by the option `--config`.
+A different configuration file can be set with `--config`.
 
 ## All Configuration
 
-`icon` (required)
-`name` (looked up from package.json, else required)
+`icon` (required) - input icon file
+`name` (required) - the app name
 `outdir` ("./public")
-`short_name` (none)
-`display` ("browser")
-`sizes` ([512, 192, 180, 168, 144, 96, 72, 48, 32, 16])
-`description` (none)
-`webmanifest` overrides properties in the generated web manifest file (available only via configuration file, not per option)
+`short_name` - short version of the name
+`display` ("browser") - controls if standard browser UI is used, see the standard for details.
+`sizes` (512, 192, 180, 168, 144, 96, 72, 48, 32, 16) - which icon sizes to generate from the input icon. The input should be larger than these, or vector based for best results. Use comma-delimited list of sizes (without spaces)
+`description` - description of the app
+`webmanifest` - provide further properties for the generated web manifest file (only available via configuration file)
+
+## References
 
 1 https://developer.mozilla.org/en-US/docs/Web/Manifest
 
