@@ -10,10 +10,15 @@ let config;
 const run = async () => {
   try {
     config = evaluateConfig(synopt, process.argv.slice(2));
+
+    if (config.help) {
+      console.info(synoptions.usage());
+      process.exit(0);
+    }
   } catch (err) {
     console.error(err.message);
     console.info(synoptions.usage());
-    process.exit(0);
+    process.exit(1);
   }
 
   await generate(config);

@@ -13,6 +13,7 @@ synopt
   .option("--description", "app description")
   .option("--tags", "print meta tags to include manifest file and icons", { boolean: true })
   .option("--verbose", "print more information the console", { boolean: true })
-  .option("--watch", "watch icon and configuration for changes", { boolean: true });
+  .option("--watch", "watch icon and configuration for changes", { boolean: true })
+  .option("-h", "--help", "Print information about options")
 
 export { synopt as synoptions };
