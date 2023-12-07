@@ -1,3 +1,5 @@
+[![CI](https://github.com/febeling/mkwebmanifest/actions/workflows/node.js.yml/badge.svg)](https://github.com/febeling/mkwebmanifest/actions/workflows/node.js.yml)
+
 # mkwebmanifest
 
 Generate icons in different sizes and a web manifest, in order to link icons (and make a web application installable).
@@ -9,7 +11,9 @@ The web manifest will contain all properties that are required on some platforms
 ```shell
 npx mkwebmanifest --icon app/assets/images/icon.svg --name myapp
 ```
+
 or using all settings from a default configuration file location
+
 ```shell
 cat > mkwebmanifest.config.json << EOF
 {
@@ -22,6 +26,7 @@ npx mkwebmanifest
 ```
 
 Or if installed
+
 ```shell
 mkwebmanifest --icon app/assets/images/icon.svg --name myapp
 ```
