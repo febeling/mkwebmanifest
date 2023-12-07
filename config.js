@@ -36,7 +36,13 @@ const loadFileConfig = (configFile) => {
 };
 
 const evaluateConfig = (synopt, argv) => {
-  const options = synopt.parse(argv);
+  const { ok, options, error } = synopt.parse(argv);
+  if (!ok) {
+    console.log(error);
+    console.log(synopt.usage());
+    process.exit(1);
+  }
+
   const fileConfig = loadFileConfig(options.config);
 
   const config = { ...defaults, ...fileConfig, ...options };
