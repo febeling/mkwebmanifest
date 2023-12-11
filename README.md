@@ -58,16 +58,16 @@ A configuration file might look like this:
 
 A different configuration file can be set with `--config`.
 
-## All Configuration
+## Configuration
 
-`icon` (required) - input icon file
-`name` (required) - the app name
-`outdir` ("./public")
-`short_name` - short version of the name
-`display` ("browser") - controls if standard browser UI is used, see the standard for details.
-`sizes` (512, 192, 180, 168, 144, 96, 72, 48, 32, 16) - which icon sizes to generate from the input icon. The input should be larger than these, or vector based for best results. Use comma-delimited list of sizes (without spaces)
-`description` - description of the app
-`webmanifest` - provide further properties for the generated web manifest file (only available via configuration file)
+- `icon` (required) - input icon file
+- `name` (required) - the app name
+- `outdir` ("./public")
+- `short_name` - short version of the name
+- `display` ("browser") - controls if standard browser UI is used, see the standard for details.
+- `sizes` (512, 192, 180, 168, 144, 96, 72, 48, 32, 16) - which icon sizes to generate from the input icon. The input should be larger than these, or vector based for best results. Use comma-delimited list of sizes (without spaces)
+- `description` - description of the app
+- `webmanifest` - provide further properties for the generated web manifest file (only available via configuration file)
 
 ## References
 
