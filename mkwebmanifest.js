@@ -10,9 +10,9 @@ const imageMIMEType = 'image/png';
 function resizeImage(inputPath, outputPath, size) {
   return sharp(inputPath)
     .resize(size, size, {
-      fit: 'cover',
+      fit: 'contain',
       position: 'center',
-      background: { r: 0, g: 0, b: 0, alpha: 0 }
+      background: { r: 0, g: 0, b: 0, alpha: 0 } // beyond image limits, use transparent background
     })
     .toFile(outputPath);
 }
@@ -36,14 +36,15 @@ async function generate(config) {
     fs.mkdirSync(iconsDir);
   }
 
-  const { width, height } = await new sharp(inputIconPath).metadata();
+  const metadata = await new sharp(inputIconPath).metadata();
+  const { width, height, format } = metadata;
   const maxSize = Math.max(...config.sizesArray);
 
   if (config.verbose && (width !== height)) {
-    console.warn(`Icon isn't square format: ${width}x${height} - will be cropped`);
+    console.warn(`Icon isn't square format: ${width}x${height} - will center on a square`);
   }
 
-  if (config.verbose && (width < maxSize || height < maxSize)) {
+  if (config.verbose && format !== 'svg' && (width < maxSize || height < maxSize)) {
     console.warn(`Input icon size smaller than biggest output size. For best results use big (512x512) or vector input icons.`);
   }
 
