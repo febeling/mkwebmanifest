@@ -69,6 +69,10 @@ A different configuration file can be set with `--config`.
 - `description` - description of the app
 - `webmanifest` - provide further properties for the generated web manifest file (only available via configuration file)
 
+## Limitations
+
+- The icon files with the various sizes are all written to a subdirectory in `outdir`. This subdirectory cannot be configure for now. It's always named 'icons'.
+
 ## References
 
 1 https://developer.mozilla.org/en-US/docs/Web/Manifest

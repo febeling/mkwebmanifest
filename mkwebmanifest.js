@@ -21,6 +21,7 @@ async function generate(config) {
   const inputIconPath = config.icon;
   const basename = path.parse(inputIconPath).name;
   const outputImages = [];
+  const iconsSubDir = 'icons';
 
   if (!fs.existsSync(inputIconPath)) {
     console.error(`Icon not found: '${inputIconPath}'`);
@@ -31,7 +32,7 @@ async function generate(config) {
     fs.mkdirSync(config.outdir);
   }
 
-  const iconsDir = path.join(config.outdir, 'icons');
+  const iconsDir = path.join(config.outdir, iconsSubDir);
   if (!fs.existsSync(iconsDir)) {
     fs.mkdirSync(iconsDir);
   }
@@ -49,10 +50,14 @@ async function generate(config) {
   }
 
   for (const imageSize of config.sizesArray) {
-    const outputFilePath = path.join(iconsDir, `${basename}_${imageSize}x${imageSize}.${imageType}`);
+    const iconFileName = `${basename}_${imageSize}x${imageSize}.${imageType}`;
+    const outputFilePath = path.join(iconsDir, iconFileName);
     await resizeImage(inputIconPath, outputFilePath, imageSize);
+
+    const srcPath = path.join(iconsSubDir, iconFileName);
+
     outputImages.push({
-      src: outputFilePath,
+      src: srcPath,
       sizes: `${imageSize}x${imageSize}`,
       type: imageMIMEType
     });
