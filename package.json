@@ -1,6 +1,6 @@
 {
   "name": "mkwebmanifest",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Generate icons and web manifest for web applications",
   "type": "module",
   "bin": {
@@ -10,7 +10,7 @@
     "test": "NODE_OPTIONS=--experimental-vm-modules npx jest"
   },
   "engines": {
-    "node": ">=17"
+    "node": ">=20"
   },
   "keywords": [
     "webmanifest",
