@@ -7,11 +7,11 @@ import { webmanifestDefaults } from './config.js';
 const imageType = 'png';
 const imageMIMEType = 'image/png';
 
-function resizeImage(inputPath, outputPath, size) {
+function resizeImage(inputPath, outputPath, size, position = 'center') {
   return sharp(inputPath)
     .resize(size, size, {
       fit: 'contain',
-      position: 'center',
+      position,
       background: { r: 0, g: 0, b: 0, alpha: 0 } // beyond image limits, use transparent background
     })
     .toFile(outputPath);
@@ -46,13 +46,13 @@ async function generate(config) {
   }
 
   if (config.verbose && format !== 'svg' && (width < maxSize || height < maxSize)) {
-    console.warn(`Input icon size smaller than biggest output size. For best results use big (512x512) or vector input icons.`);
+    console.warn(`Input icon size smaller than biggest output size. For best results use big (512x512) or SVG input icon.`);
   }
 
   for (const imageSize of config.sizesArray) {
     const iconFileName = `${basename}_${imageSize}x${imageSize}.${imageType}`;
     const outputFilePath = path.join(iconsDir, iconFileName);
-    await resizeImage(inputIconPath, outputFilePath, imageSize);
+    await resizeImage(inputIconPath, outputFilePath, imageSize, config.position);
 
     const srcPath = path.join(iconsSubDir, iconFileName);
 
@@ -78,12 +78,11 @@ async function generate(config) {
   webmanifest.icons = outputImages;
 
   // Write to file
-
-  const outputJsonFile = path.join(config.outdir, 'app.webmanifest');
+  const outputJsonFile = path.join(config.outdir || "public", config.file || "app.webmanifest");
   fs.writeFileSync(outputJsonFile, JSON.stringify(webmanifest, null, 2), 'utf8');
 
   if (config.verbose) {
-    console.log(`Written app.webmanifest: ${outputJsonFile}`);
+    console.log(`Written manifest file: ${outputJsonFile}`);
   }
 }
 
