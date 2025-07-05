@@ -1,6 +1,6 @@
 {
   "name": "mkwebmanifest",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Generate icons and web manifest for web applications",
   "type": "module",
   "bin": {
