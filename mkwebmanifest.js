@@ -3,9 +3,11 @@ import path from 'path';
 import { exit } from 'process';
 import sharp from 'sharp';
 import { webmanifestDefaults } from './config.js';
+import toIco from 'to-ico';
 
 const imageType = 'png';
 const imageMIMEType = 'image/png';
+const icoSizes = [16, 32, 48, 64, 128];
 
 function resizeImage(inputPath, outputPath, size, position = 'center') {
   return sharp(inputPath)
@@ -21,6 +23,7 @@ async function generate(config) {
   const inputIconPath = config.icon;
   const basename = path.parse(inputIconPath).name;
   const outputImages = [];
+  const outputIcoImages = [];
   const iconsSubDir = 'icons';
 
   if (!fs.existsSync(inputIconPath)) {
@@ -62,9 +65,28 @@ async function generate(config) {
       type: imageMIMEType
     });
 
+    if (config.ico && icoSizes.includes(imageSize)) {
+      outputIcoImages.push(outputFilePath);
+    }
+
     if (config.verbose) {
       console.log(`${`${imageSize}x${imageSize}`} written to ${outputFilePath}`);
     }
+  }
+
+  if (config.ico) {
+    if (config.verbose) {
+      console.log("Generating favicon.ico using: ", outputIcoImages);
+    }
+
+    const images = outputIcoImages.map((iconPath) =>
+      fs.readFileSync(iconPath)
+    )
+
+    // Place it top level
+    const icoFilePath = path.join(config.outdir || "public", "favicon.ico");
+    const buf = await toIco(images, icoFilePath);
+    fs.writeFileSync(icoFilePath, buf);
   }
 
   // Assemble the properties

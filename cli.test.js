@@ -3,7 +3,7 @@ import { open } from 'fs/promises';
 
 test('`runs with clean exit code and output', () => {
   expect(() => {
-    const output = execFileSync('./cli.js', ['--icon', 'fixtures/check-badge.svg', "-nName-1"], {});
+    const output = execFileSync('./cli.js', ['--icon', 'fixtures/check-badge.svg', "-nName-1", "--ico"], {});
     expect(output.toString()).toEqual('');
   }).not.toThrow();
 });

@@ -67,9 +67,10 @@ A different configuration file can be set with `--config`.
 - `position` - ("center") placement of the input icon on resize (e.g. "bottom", see [sharp resize](https://sharp.pixelplumbing.com/api-resize/) documentation)
 - `short_name` - short version of the name
 - `display` ("browser") - controls if standard browser UI is used, see the standard for details
-- `sizes` (512, 192, 180, 168, 144, 96, 72, 48, 32, 16) - which icon sizes to generate from the input icon. The input should be larger than these, or vector based for best results. Use comma-delimited list of sizes (without spaces)
+- `sizes` (`512,192,180,168,144,96,72,48,32,16`) - which icon sizes to generate from the input icon. The input should be larger than these, or vector based for best results. Use comma-delimited list of sizes (without spaces)
 - `description` - description of the app
 - `webmanifest` - provide further properties for the generated web manifest file (only available via configuration file)
+- `ico` - generate a favicon.ico file (default: false). Recommended to include 16x16, 32x32, and 48x48 output icons, possibly 64x64 and 128x128, as these will all be packaged into the `favicon.ico` file
 
 ## Limitations
 

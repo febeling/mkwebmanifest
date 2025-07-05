@@ -16,7 +16,7 @@ const webmanifestDefaults = {
 
 const defaults = {
   outdir: "public/",
-  sizes: '512,192,180,168,144,96,72,48,32,16',
+  sizes: '512,192,180,168,144,128,96,72,64,48,32,16',
 };
 
 const loadFileConfig = (configFile) => {

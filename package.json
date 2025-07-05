@@ -27,7 +27,8 @@
   "license": "MIT",
   "dependencies": {
     "sharp": "^0.34.2",
-    "synopt": "*"
+    "synopt": "*",
+    "to-ico": "^1.1.5"
   },
   "devDependencies": {
     "jest": "^29.7.0"
