@@ -1,6 +1,6 @@
 {
   "name": "mkwebmanifest",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Generate icons and web manifest for web applications",
   "type": "module",
   "bin": {
@@ -26,7 +26,7 @@
   "author": "Florian Ebeling <mail@florianebeling.com>",
   "license": "MIT",
   "dependencies": {
-    "sharp": "^0.32.6",
+    "sharp": "^0.34.2",
     "synopt": "*"
   },
   "devDependencies": {
