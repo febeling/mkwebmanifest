@@ -2,7 +2,7 @@
 
 # mkwebmanifest
 
-Generate icons in different sizes and a web manifest, in order to link icons (and make a web application installable).
+Generate icons in different sizes and a web [manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest), in order to link icons (and make a web application installable).
 
 The web manifest will contain all properties that are required on some platforms (`name`, `icons`, `start_url`, `display`).
 
@@ -60,11 +60,13 @@ A different configuration file can be set with `--config`.
 
 ## Configuration
 
-- `icon` (required) - input icon file
-- `name` (required) - the app name
+- `icon` (_required_) - input icon file
+- `name` (_required_) - the app name
 - `outdir` ("./public")
+- `file` ("app.webmanifest") - name of the manifest file ("manifest.json" is common, too)
+- `position` - ("center") placement of the input icon on resize (e.g. "bottom", see [sharp resize](https://sharp.pixelplumbing.com/api-resize/) documentation)
 - `short_name` - short version of the name
-- `display` ("browser") - controls if standard browser UI is used, see the standard for details.
+- `display` ("browser") - controls if standard browser UI is used, see the standard for details
 - `sizes` (512, 192, 180, 168, 144, 96, 72, 48, 32, 16) - which icon sizes to generate from the input icon. The input should be larger than these, or vector based for best results. Use comma-delimited list of sizes (without spaces)
 - `description` - description of the app
 - `webmanifest` - provide further properties for the generated web manifest file (only available via configuration file)
@@ -72,10 +74,6 @@ A different configuration file can be set with `--config`.
 ## Limitations
 
 - The icon files with the various sizes are all written to a subdirectory in `outdir`. This subdirectory cannot be configure for now. It's always named 'icons'.
-
-## References
-
-1 https://developer.mozilla.org/en-US/docs/Web/Manifest
 
 ## Credit
 
