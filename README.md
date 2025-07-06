@@ -13,7 +13,7 @@ The web manifest will contain all properties that are required on some platforms
 npx mkwebmanifest --icon app/assets/images/icon.svg --name myapp
 ```
 
-or using all settings from a default configuration file location
+Or using all settings from a default configuration file location
 
 ```shell
 cat > mkwebmanifest.config.json << EOF
