@@ -1,8 +1,9 @@
 [![CI](https://github.com/febeling/mkwebmanifest/actions/workflows/node.js.yml/badge.svg)](https://github.com/febeling/mkwebmanifest/actions/workflows/node.js.yml)
+[![npm version](https://badge.fury.io/js/mkwebmanifest.svg)](https://badge.fury.io/js/mkwebmanifest)
 
 # mkwebmanifest
 
-Generate icons in different sizes and a web [manifest](https://developer.mozilla.org/en-US/docs/Web/Manifest), in order to link icons (and make a web application installable).
+Generate icons in different sizes and a web manifest ([W3C standard](https://w3c.github.io/manifest/), [MDN docs](https://developer.mozilla.org/en-US/docs/Web/Manifest)), in order to link icons (and make a web application installable).
 
 The web manifest will contain all properties that are required on some platforms (`name`, `icons`, `start_url`, `display`).
 
