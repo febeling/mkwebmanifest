@@ -29,6 +29,7 @@
     "sharp": "^0.34.2",
     "synopt": "*",
     "to-ico": "^1.1.5"
+    "to-ico": "^1.1.5",
   },
   "devDependencies": {
     "jest": "^29.7.0"
