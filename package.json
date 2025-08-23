@@ -26,10 +26,10 @@
   "author": "Florian Ebeling <mail@florianebeling.com>",
   "license": "MIT",
   "dependencies": {
+    "form-data": ">=2.5.4",
     "sharp": "^0.34.2",
-    "synopt": "*",
-    "to-ico": "^1.1.5",
-    "form-data": ">=2.5.4"
+    "synopt": "^0.8.1",
+    "to-ico": "^1.1.5"
   },
   "devDependencies": {
     "jest": "^29.7.0"
