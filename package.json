@@ -26,7 +26,6 @@
   "author": "Florian Ebeling <mail@florianebeling.com>",
   "license": "MIT",
   "dependencies": {
-    "form-data": ">=2.5.4",
     "sharp": "^0.34.2",
     "synopt": "^0.8.1",
     "to-ico": "^1.1.5"
