@@ -31,7 +31,13 @@ if (config.watch) {
     ...(config.configFile ? [config.configFile] : [])
   ];
 
-  console.log(files)
+  console.log('Watching files:', files);
 
-  watchFiles(files, run);
+  const watchers = watchFiles(files, run);
+  
+  process.on('SIGINT', () => {
+    console.log('Closing file watchers...');
+    watchers.forEach(watcher => watcher.close());
+    process.exit(0);
+  });
 }

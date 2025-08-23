@@ -14,7 +14,9 @@ test('`icon` path is relative to `outdir`', async () => {
   const output = execFileSync('./cli.js', ['--icon', 'fixtures/check-badge.svg', "-nName-1"], {});
   expect(output.toString()).toEqual('');
 
-  const content = await (await open('./public/app.webmanifest')).readFile();
+  const fileHandle = await open('./public/app.webmanifest');
+  const content = await fileHandle.readFile();
+  await fileHandle.close();
   const manifest = JSON.parse(content);
 
   const icon = manifest.icons[0];
@@ -29,6 +31,8 @@ test('generates favicon.ico file', async () => {
   const output = execFileSync('./cli.js', ['--icon', 'fixtures/check-badge.svg', "-nName-1", "--ico"], {});
   expect(output.toString()).toEqual('');
 
-  const content = await (await open('./public/favicon.ico')).readFile();
+  const fileHandle = await open('./public/favicon.ico');
+  const content = await fileHandle.readFile();
+  await fileHandle.close();
   expect(content).toBeDefined();
 });

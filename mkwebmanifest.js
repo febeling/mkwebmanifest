@@ -109,12 +109,20 @@ async function generate(config) {
 }
 
 function watchFiles(files, callback) {
+  const watchers = [];
+  
   files.forEach(file => {
-    console.log(`File changed (${file}), regenerating...`);
-    fs.watch(file, callback);
+    console.log(`Watching file: ${file}`);
+    const watcher = fs.watch(file, (eventType) => {
+      console.log(`File changed (${file}), regenerating...`);
+      callback();
+    });
+    watchers.push(watcher);
   });
 
   console.log('Watching for changes...');
+  
+  return watchers;
 }
 
 export {
