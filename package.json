@@ -33,5 +33,6 @@
   },
   "devDependencies": {
     "jest": "^29.7.0"
-  }
+  },
+  "main": "cli.js"
 }
