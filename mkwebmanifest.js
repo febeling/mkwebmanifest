@@ -1,9 +1,9 @@
 import fs from 'fs';
+import icoEndec from 'ico-endec';
 import path from 'path';
 import { exit } from 'process';
 import sharp from 'sharp';
 import { webmanifestDefaults } from './config.js';
-import toIco from 'to-ico';
 
 const imageType = 'png';
 const imageMIMEType = 'image/png';
@@ -85,7 +85,7 @@ async function generate(config) {
 
     // Place it top level
     const icoFilePath = path.join(config.outdir || "public", "favicon.ico");
-    const buf = await toIco(images, icoFilePath);
+    const buf = icoEndec.encode(images);
     fs.writeFileSync(icoFilePath, buf);
   }
 
